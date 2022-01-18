@@ -1,0 +1,24 @@
+name: Test
+on: [push]
+jobs:
+  Test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install deps
+        run: sudo apt-get install -y libboost-all-dev cmake python3-pip ninja-build libcurl4-openssl-dev libssl-dev
+      - name: Install GCC11
+        shell: bash
+        run:  |
+          sudo apt update
+          sudo apt install gcc-11 g++-11
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 110 --slave /usr/bin/g++ g++ /usr/bin/g++-11 --slave /usr/bin/gcov gcov /usr/bin/gcov-11
+      - uses: actions/checkout@v2
+      - name: Testing
+        run: |
+          pip install meson
+          git submodule init
+          git submodule update
+          meson build
+          cd build
+          ninja test
+
