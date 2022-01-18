@@ -1,9 +1,19 @@
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include <cpr/cpr.h>
+#include <boost/asio.hpp>
+#include <boost/beast/core.hpp>
+#include <boost/beast/websocket.hpp>
+#include <boost/asio/connect.hpp>
+#include <boost/asio/ip/tcp.hpp>
+
+
+namespace beast = boost::beast;
+namespace websocket = beast::websocket;
+namespace net = boost::asio;
 
 using json = nlohmann::json;
-
+using tcp = boost::asio::ip::tcp;
 
 struct user {
     std::string login;
@@ -40,7 +50,11 @@ int main(int argc, char* argv[])
         return 2;
     }
 
-    json obj = json::parse(r.text);
+    json obj = json::parse(r.text, nullptr, false);
+    if (obj.is_discarded()) {
+        std::cout << "Bad json bruh\n";
+        return 3;
+    }
     auto u = obj.get<user>();
 
     std::cout << "User-info\n";
@@ -50,5 +64,4 @@ int main(int argc, char* argv[])
     std::cout << "URL: " << u.url << "\n";
     std::cout << "FOLLOWERS: " << u.followers << "\n";
     std::cout << "FOLLOWING: " << u.following << "\n";
-
 }

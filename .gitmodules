@@ -4,3 +4,6 @@
 [submodule "subprojects/cpr"]
 	path = subprojects/cpr
 	url = https://github.com/libcpr/cpr
+[submodule "subprojects/Catch2"]
+	path = subprojects/Catch2
+	url = https://github.com/catchorg/Catch2
