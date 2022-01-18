@@ -1,3 +1,6 @@
 [submodule "subprojects/json"]
 	path = subprojects/json
 	url = https://github.com/nlohmann/json
+[submodule "subprojects/cpr"]
+	path = subprojects/cpr
+	url = https://github.com/libcpr/cpr
